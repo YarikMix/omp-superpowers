@@ -4,10 +4,6 @@ sections blank, contain multiple unrelated changes, or show no evidence
 of human involvement will be closed without review.
 -->
 
-> **This PR MUST target the `dev` branch, not `main`.** `main` is the
-> released branch; active work lands on `dev` first. PRs opened against
-> `main` will be asked to retarget `dev` before review.
->
 > **This project does not accept agent-written PRs that fix issues filed by
 > someone else**, even when your human partner hit the same problem. If you
 > found an issue in the tracker and decided to submit a PR for it without a
