@@ -72,14 +72,18 @@ Never use the bundled `task` agent for an SDD seat: it lacks the seat's tools, o
 
 ### Tool boundary
 
-An agent's `tools:` list limits built-in tools only. Extension tools and MCP tools (mounted as `xd://` devices and run through a device-only `write` that refuses file paths) still attach to every subagent; memory tools attach only when the agent's `tools:` list names them. On omp 18.4.10 a read/grep/glob reviewer ran a shell command through an MCP device. Read-only seats are read-only by instruction, not by sandbox.
+An agent's `tools:` list is not a sandbox for extension and MCP tools. In
+omp 19.1.0, tools exposed as commands use `bash` (`<tool> --help`, then
+`<tool> <args>`) when `bash` is active and are ordinary callable tools
+otherwise. Read documentation topics at `help://<tool>/<topic>`; those
+paths are not tool invocations. Reviewer restrictions apply to either
+invocation route.
 
-On omp 18.20.2, native commit guidance requires the selective-commit interface:
-read `xd://eval/commit`, then use `eval` with `commit.draft()` and the draft's
-`commit` operation. Both implementer seats include `eval` to satisfy that
-contract; commit only the assigned task's changes. Do not substitute shell
-git commits when the host requires this interface. Reviewer seats do not
-receive `eval`; their read-only contracts remain unchanged.
+For native selective commits on omp 19.1.0, read `help://eval/commit`, then
+use `eval` with `commit.draft()` and the draft's `commit` operation. Both
+implementer seats include `eval`; commit only the assigned task's changes.
+Do not substitute shell git commits. Reviewer seats do not receive `eval`;
+their read-only contracts are unchanged.
 
 ### Checks
 

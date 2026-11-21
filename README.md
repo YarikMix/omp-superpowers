@@ -150,7 +150,7 @@ The helper scripts (`sdd-workspace`, `task-brief`, `review-package`, and executi
 
 | Seat | agent | shipped default · thinking | falls back to | tools |
 |---|---|---|---|---|
-| implementer (every task, fix rounds 1–2) | `sdd-implementer` | claude-sonnet-5-5 · medium | `@task` | read, write, edit, bash, grep, glob, lsp, ast_grep |
+| implementer (every task, fix rounds 1–2) | `sdd-implementer` | claude-sonnet-5-5 · medium | `@task` | read, write, edit, bash, eval, grep, glob, lsp, ast_grep |
 | task reviewer | `sdd-reviewer` | claude-sonnet-5-5 · high | `@task` | read, grep, glob |
 | scoped re-review | `sdd-rereviewer` | claude-sonnet-5-5 · low | `@task` | read, grep |
 | fix round 3 / ruled strongest-tier task | `sdd-escalation-implementer` | claude-opus-5-5 · max | `@slow` | same as implementer |
@@ -170,7 +170,9 @@ omp takes the first list entry whose provider has credentials. If the pin has no
 <details>
 <summary><b>What the reviewer seats can and can't do</b></summary>
 
-The two reviewer seats have no `bash`, `edit`, or filesystem `write`: the review package (`git diff -U10` written to a file) is their whole view of the change, and they return a structured result (`spec_compliance`, `task_quality`, `findings[]`, `cannot_verify[]`; `finding_verdicts[]`, `new_breakage[]`, `round_verdict`) plus `package_gap` when they could not read the package. Note the honest boundary: an agent's `tools:` list limits built-in tools only. Extension tools and MCP tools (mounted as `xd://` devices and run through a device-only `write`) still attach to every subagent; memory tools attach only when the agent's `tools:` list names them. On omp 18.4.10 a read/grep/glob reviewer ran a shell command through an MCP device. Read-only is by instruction, not a sandbox.
+The two reviewer seats have no `bash`, `edit`, or filesystem `write`: the review package (`git diff -U10` written to a file) is their whole view of the change, and they return a structured result (`spec_compliance`, `task_quality`, `findings[]`, `cannot_verify[]`; `finding_verdicts[]`, `new_breakage[]`, `round_verdict`) plus `package_gap` when they could not read the package.
+
+An agent's `tools:` list is not a sandbox for extension and MCP tools. On omp 19.1.0, tools exposed as commands run through `bash` when active and are callable directly otherwise. Reviewer restrictions apply to both routes. On omp 18.4.10 a read/grep/glob reviewer ran a shell command through an MCP device; read-only is by instruction, not a sandbox.
 
 </details>
 

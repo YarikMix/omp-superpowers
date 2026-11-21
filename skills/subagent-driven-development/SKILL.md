@@ -452,26 +452,22 @@ catalog refreshes; when a seat's speed or quality shifts overnight, read
 (Discovery-only ids accept `:level` in config and overrides but not on the
 `--model` CLI flag.)
 
-**What the reviewers' `tools:` list enforces (measured, omp 18.4.10).** A
-`tools:` list restricts built-in tools only. `sdd-reviewer` (`read`, `grep`,
-`glob`) gets no `bash`, `edit`, or file-writing tool, and the device-only
-`write` that omp adds to carry `xd://` devices refuses filesystem paths.
-Everything else still attaches: every subagent that omp itself has not
-restricted (only its internal commit-message, compression, and security
-sessions are) also gets the host's extension tools and MCP tools, mounted as
-`xd://` devices reached through that same `write`. A memory host's `recall`,
-`retain`, and `reflect` (`memory_edit` on mnemopi) are a different case: omp
-creates them for such a subagent, but activates only the tools the agent's
-`tools:` list names. Measured on a hindsight host: a `read, grep, glob` seat
-had no top-level `recall` and no `xd://recall` device, while a seat that
-listed `recall` had it top-level (`memory_edit` takes the same path; not run).
-A live probe on 18.4.10 had `sdd-reviewer`
-run a shell command through `write xd://mcp__context_mode_ctx_execute`. So
-"read-only" is enforced by the prompt, not by the harness: the three reviewer
-agents are told never to call an `xd://` device, or an extension or MCP tool,
-that executes code, writes files, or changes external state, nor a memory
-tool that writes (`retain`, `memory_edit`) should one ever be present. If a
-reviewer's transcript ever shows one, say so in the ledger and re-dispatch
+**What the reviewers' `tools:` list enforces.** The task and scoped review
+seats have no built-in `bash`, `edit`, or file-writing tool, but omp can
+expose extension and MCP tools outside the list. In omp 19.1.0, tools
+exposed as commands run through `bash` when it is active; otherwise they
+are ordinary callable tools, including in seats without `bash`.
+
+On omp 18.4.10, before tool commands, a live probe had `sdd-reviewer` run
+a shell command through `write xd://mcp__context_mode_ctx_execute`. On
+that version, the Hindsight probe found no `recall` tool or `xd://recall`
+device in a `read, grep, glob` seat; listing `recall` exposed it directly.
+
+Read-only is enforced by the prompt: all three reviewer agents must not
+invoke extension or MCP tools that execute code, write files, or change
+external state, whether directly or through `bash`, nor any memory tool
+that writes (`retain`, `memory_edit`) if present. If a reviewer's
+transcript shows a prohibited call, say so in the ledger and re-dispatch
 that review.
 
 **Turn count beats token price.** Wall-clock and context cost scale with how
