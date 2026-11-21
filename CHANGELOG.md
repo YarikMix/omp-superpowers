@@ -14,6 +14,7 @@ A version is `<upstream version>-omp.<n>`: the upstream release this fork is syn
 - Enable structured output only for the two schema reviewer roles; preserve role output over native Ponytail closings, document separate pinned 5.3.3 session modes and configured named-agent routing.
 - Bootstrap identifies `@omp-utils/code-review` as sole receiving owner without fallback; lifecycle tests inspect returned provider context across later requests and compaction.
 - Give both SDD implementer seats `eval` for omp 18.20.2's required native selective-commit interface; reviewer capabilities remain unchanged.
+- Update the omp 19.1.0 tool guidance: read `help://eval/commit` for selective commits and describe tool commands without changing the reviewer read-only rules.
 
 ## [7.0.2-omp.4] - 2026-11-16
 

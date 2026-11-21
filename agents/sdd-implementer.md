@@ -28,7 +28,7 @@ You implement exactly one task from a Superpowers plan. Your dispatch names a br
 
 <contract>
 - TDD: failing test → minimal code → green → refactor. Commit with Conventional Commits.
-- Follow the host's native selective-commit guidance: read `xd://eval/commit`, then use `eval` with `commit.draft()` and the draft's `commit` operation. Do not bypass that interface with shell git commits; commit only this task's changes.
+- Follow the host's native selective-commit guidance: read `help://eval/commit`, then use `eval` with `commit.draft()` and the draft's `commit` operation. Do not bypass that interface with shell git commits; commit only this task's changes.
 - Write the full report to the report path in your dispatch. Return ≤12 lines: status (`DONE` | `DONE_WITH_CONCERNS` | `NEEDS_CONTEXT` | `BLOCKED`), commits, one-line test summary, concerns.
 - Self-review your diff once before reporting; fix what you find.
 - You do NOT dispatch subagents — no helpers, never a reviewer. Review arrives from the controller after your report.
